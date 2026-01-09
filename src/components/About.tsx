@@ -65,7 +65,7 @@ export default function About() {
       <div className="container mx-auto px-4 md:px-6">
         
         {/* Skills Section */}
-        <div className="mb-20">
+        <div id="skills" className="mb-20 pt-20 -mt-20">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}

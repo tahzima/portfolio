@@ -1,9 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Linkedin, Mail, MapPin, Phone, Send, CheckCircle2, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setFormData({ name: "", email: "", message: "" });
+    
+    setTimeout(() => setIsSuccess(false), 5000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
   return (
     <section id="contact" className="py-20 bg-gray-50 dark:bg-zinc-900/50">
       <div className="container mx-auto px-4 md:px-6">
@@ -85,7 +113,7 @@ export default function Contact() {
             viewport={{ once: true }}
             className="bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800"
           >
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
                   Nom Complet
@@ -93,6 +121,9 @@ export default function Contact() {
                 <input
                   type="text"
                   id="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-all"
                   placeholder="Votre nom"
                 />
@@ -104,6 +135,9 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
                   placeholder="votre@email.com"
                 />
@@ -114,6 +148,9 @@ export default function Contact() {
                 </label>
                 <textarea
                   id="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-zinc-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all resize-none"
                   placeholder="Comment puis-je vous aider ?"
@@ -121,10 +158,31 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="w-full py-3 bg-gray-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full py-3 bg-gray-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Envoyer le message <Send size={18} />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    Envoyer le message <Send size={18} />
+                  </>
+                )}
               </button>
+              
+              {isSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 p-3 rounded-lg border border-emerald-100 dark:border-emerald-800"
+                >
+                  <CheckCircle2 size={18} />
+                  <span className="text-sm font-medium">Message envoyé avec succès !</span>
+                </motion.div>
+              )}
             </form>
           </motion.div>
         </div>
