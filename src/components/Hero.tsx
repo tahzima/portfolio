@@ -33,7 +33,7 @@ export default function Hero() {
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto md:mx-0 leading-relaxed">
-                Je suis <strong>Ilyass Tahzima</strong>, un ingénieur logiciel passionné par la conception de solutions web innovantes.
+                Je suis <strong>Ilyass TAHZIMA</strong>, un ingénieur logiciel passionné par la conception de solutions web innovantes.
                 Spécialisé en <strong>Spring Boot</strong> et <strong>Angular</strong>, je transforme des idées complexes en applications performantes.
               </p>
 
